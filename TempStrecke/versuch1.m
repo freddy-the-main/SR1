@@ -180,10 +180,10 @@ plot(indexLower, stellsprungStruct.wendeTanga(indexLower),'o',LineWidth=5)
 
 % werte Ausgeben:
 stellsprungStruct.T1 = (indexLower - stellsprungStruct.sprungIndex) * stellsprungStruct.dt;
-stellsprungStruct.T2 = (indexUpper - indexLower) * stellsprungStruct.dt
+stellsprungStruct.T2 = (indexUpper - indexLower) * stellsprungStruct.dt;
+stellsprungStruct.K = (max(stellsprungStruct.Bfilt) - (stellsprungStruct.Bfilt(stellsprungStruct.sprungIndex)))/(max(stellsprungStruct.A)-min(stellsprungStruct.A));
 
-
-
+fprintf("Stellsprungparameter Wendetangenteverfahren: \n T1 = %2.4f\n T2 = %2.4f\n K  =  %2.4f\n",stellsprungStruct.T1,stellsprungStruct.T2,stellsprungStruct.K)
 
 
 
@@ -250,4 +250,7 @@ plot(indexLower, stoersprungStruct.wendeTanga(indexLower),'o',LineWidth=5)
 
 % werte Ausgeben:
 stoersprungStruct.T1 = (indexLower - stoersprungStruct.sprungIndex) * stoersprungStruct.dt;
-stoersprungStruct.T2 = (indexUpper - indexLower) * stoersprungStruct.dt
+stoersprungStruct.T2 = (indexUpper - indexLower) * stoersprungStruct.dt;
+stoersprungStruct.K = ( min(stoersprungStruct.Bfilt) - stoersprungStruct.Bfilt(stoersprungStruct.sprungIndex))/(max(stoersprungStruct.C)-min(stoersprungStruct.C));
+
+fprintf("\nStoersprungparameter Wendetangenteverfahren: \n T1 = %2.4f\n T2 = %2.4f\n K  =  %2.4f\n",stoersprungStruct.T1,stoersprungStruct.T2,stoersprungStruct.K)
