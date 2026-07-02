@@ -254,3 +254,35 @@ stoersprungStruct.T2 = (indexUpper - indexLower) * stoersprungStruct.dt;
 stoersprungStruct.K = ( min(stoersprungStruct.Bfilt) - stoersprungStruct.Bfilt(stoersprungStruct.sprungIndex))/(max(stoersprungStruct.C)-min(stoersprungStruct.C));
 
 fprintf("\nStoersprungparameter Wendetangenteverfahren: \n T1 = %2.4f\n T2 = %2.4f\n K  =  %2.4f\n",stoersprungStruct.T1,stoersprungStruct.T2,stoersprungStruct.K)
+
+
+%% Uebertragungsfunktionen
+% stellsprung:
+%stellsprungStruct.Gs = tf([stellsprungStruct.K],[stellsprungStruct.T1*stellsprungStruct.T2, stellsprungStruct.T1+stellsprungStruct.T2, 1]);
+
+T = stellsprungStruct.T2/exp(1);
+
+stellsprungStruct.Gs = tf([stellsprungStruct.K],[T^2, 2*T, 1])
+
+stoersprungStruct.Gs = tf([stoersprungStruct.K],[stoersprungStruct.T1*stoersprungStruct.T2, stoersprungStruct.T1+stoersprungStruct.T2, 1]);
+
+
+stellsprungStruct.Gs
+
+stoersprungStruct.Gs
+
+% plotten der tf un vergleichen mit echter antwort
+
+opt = RespConfig;
+opt.Amplitude = 2;
+
+figure(35)
+p1 = subplot(3,1,1)
+plot(step(stellsprungStruct.Gs,opt))
+
+p2 = subplot(3,1,2)
+hold on
+plot(stellsprungStruct.t(stellsprungStruct.sprungIndex:end), stellsprungStruct.B(stellsprungStruct.sprungIndex:end)-4.6)
+%plot(stellsprungStruct.t(stellsprungStruct.sprungIndex:end), stellsprungStruct.A(stellsprungStruct.sprungIndex:end))
+
+linkaxes([p1 p2],"x")
